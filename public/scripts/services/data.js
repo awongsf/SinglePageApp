@@ -1,24 +1,27 @@
 'use strict';
 
-anuglar.module('app')
+angular.module('app')
 .service('dataService', function($http) {
 
 	var baseURL = 'http://localhost:5000';
 
-	this.getRecipes = function() {
-		$http.get(baseURL + '/api/recipes');
+	this.getRecipes = function(callback) {
+		$http.get(baseURL + '/api/recipes')
+		.then(callback);
 	};
 
-	this.getCategories = function() {
-		$http.get(baseURL + '/api/categories');
+	this.getCategories = function(callback) {
+		$http.get(baseURL + '/api/categories')
+		.then(callback);
 	};
 
 	this.getFoodItems = function() {
 		$http.get(baseURL + '/api/fooditems');
 	};
 
-	this.getRecipesByCategory = function(categoryName) {
-		$http.get(baseURL + '/api/recipes?category=' + categoryName);
+	this.getRecipesByCategory = function(callback, categoryName) {
+		$http.get(baseURL + '/api/recipes?category=' + categoryName)
+		.then(callback);
 	};
 
 	this.getRecipeByID = function(id) {
