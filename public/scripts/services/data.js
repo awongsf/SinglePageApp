@@ -24,8 +24,9 @@ angular.module('app')
 		.then(callback);
 	};
 
-	this.getRecipeByID = function(id) {
-		$http.get(baseURL + '/api/recipes/' + id);
+	this.getRecipeByID = function(callback, id) {
+		$http.get(baseURL + '/api/recipes/' + id)
+		.then(callback);
 	};
 
 	this.updateRecipeByID = function(id, update) {
