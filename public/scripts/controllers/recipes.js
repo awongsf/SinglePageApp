@@ -27,10 +27,6 @@ angular.module('app')
 		}
 	};
 
-	vm.changeView = function(view) {
-		$location.path('/' + view);
-	};
-
 	vm.deleteRecipe = function(id) {
 		dataService.deleteRecipeByID(id);
 		vm.updateRecipeList();
