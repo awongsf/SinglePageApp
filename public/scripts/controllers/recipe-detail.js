@@ -7,37 +7,20 @@
 		
 		var vm = this;
 
-		if ($location.absUrl().includes('add')) {
-			vm.title = 'Add New Recipe';
-		} else {
-			vm.recipeID = $location.url().replace('/edit/', '');
+		vm.getCategoriesAndFoodItems = function() {
 
-			dataService.getRecipeByID(function(response) {
+			dataService.getCategories(function(response) {
 
-				var recipe = response.data;
+				vm.categoriesList = response.data;
+				var categoryIndex = vm.categoriesList.findIndex(x => x.name === vm.category);
+				vm.category = vm.categoriesList[categoryIndex];
 
-				vm.title = recipe.name;
-				vm.name = recipe.name;
-				vm.description = recipe.description;
-				vm.category = recipe.category;
-				vm.prepTime = recipe.prepTime;
-				vm.cookTime = recipe.cookTime;
-				vm.ingredients = recipe.ingredients;
-				vm.steps = recipe.steps;
+				dataService.getFoodItems(function(response) {
 
-				dataService.getCategories(function(response) {
-
-					vm.categoriesList = response.data;
-					var categoryIndex = vm.categoriesList.findIndex(x => x.name === vm.category);
-					vm.category = vm.categoriesList[categoryIndex];
-
-					dataService.getFoodItems(function(response) {
-
-						vm.foodItemsList = response.data;
-					});
+					vm.foodItemsList = response.data;
 				});
-			}, vm.recipeID);
-		}
+			});
+		};
 
 		vm.addRecipe = function() {
 			
@@ -63,7 +46,11 @@
 			latestRecipe.ingredients = vm.ingredients;
 			latestRecipe.steps = vm.steps;
 
-			dataService.updateRecipeByID(vm.recipeID, latestRecipe);
+			if ($location.absUrl().includes('add')) {
+				dataService.addRecipe(latestRecipe);
+			} else {
+				dataService.updateRecipeByID(vm.recipeID, latestRecipe);	
+			}
 
 			$location.url('/');
 		};
@@ -89,6 +76,35 @@
 		vm.deleteStep = function(step, $index) {
 			vm.steps.splice($index, 1);
 		};
+
+		if ($location.absUrl().includes('add')) {
+			vm.title = 'Add New Recipe';
+			vm.ingredients = [];
+			vm.steps = [];
+
+			vm.getCategoriesAndFoodItems();
+			vm.addAnotherIngredient();
+			vm.addAnotherStep();
+
+		} else {
+			vm.recipeID = $location.url().replace('/edit/', '');
+
+			dataService.getRecipeByID(function(response) {
+
+				var recipe = response.data;
+
+				vm.title = recipe.name;
+				vm.name = recipe.name;
+				vm.description = recipe.description;
+				vm.category = recipe.category;
+				vm.prepTime = recipe.prepTime;
+				vm.cookTime = recipe.cookTime;
+				vm.ingredients = recipe.ingredients;
+				vm.steps = recipe.steps;
+
+				vm.getCategoriesAndFoodItems();
+			}, vm.recipeID);
+		}
 	});
 
 })();
