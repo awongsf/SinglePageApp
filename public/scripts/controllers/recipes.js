@@ -1,39 +1,43 @@
-'use strict';
+(function () {
 
-angular.module('app')
-.controller('RecipesController', function(dataService, $location) {
+	'use strict';
 
-	var vm = this;
+	angular.module('app')
+	.controller('RecipesController', function(dataService, $location) {
 
-	vm.updateRecipeList = function() {
-		dataService.getRecipes(function(response) {   
-	      vm.recipes = response.data;
-	    });
-	};
+		var vm = this;
 
-	vm.updateRecipeList();
+		vm.updateRecipeList = function() {
+			dataService.getRecipes(function(response) {   
+		      vm.recipes = response.data;
+		    });
+		};
 
-    dataService.getCategories(function(response) {
-		vm.categories = response.data;
-	});
-	
-	vm.filterRecipes = function(categoryName) {
-		if (categoryName != null) {
-			dataService.getRecipesByCategory(function(response) {
-				vm.recipes = response.data;	
-			}, categoryName);
-		} else {
-			vm.updateRecipeList();
-		}
-	};
-
-	vm.deleteRecipe = function(id) {
-		dataService.deleteRecipeByID(id);
 		vm.updateRecipeList();
-	};
 
-	vm.addRecipe = function(newRecipe) {
-    	dataService.addRecipe(newRecipe);
-    	vm.updateRecipeList();
-	};
-});
+	    dataService.getCategories(function(response) {
+			vm.categories = response.data;
+		});
+		
+		vm.filterRecipes = function(categoryName) {
+			if (categoryName != null) {
+				dataService.getRecipesByCategory(function(response) {
+					vm.recipes = response.data;	
+				}, categoryName);
+			} else {
+				vm.updateRecipeList();
+			}
+		};
+
+		vm.deleteRecipe = function(id) {
+			dataService.deleteRecipeByID(id);
+			vm.updateRecipeList();
+		};
+
+		vm.addRecipe = function(newRecipe) {
+	    	dataService.addRecipe(newRecipe);
+	    	vm.updateRecipeList();
+		};
+	});
+
+})();

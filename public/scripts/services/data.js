@@ -1,45 +1,49 @@
-'use strict';
+(function () {
 
-angular.module('app')
-.service('dataService', function($http) {
+	'use strict';
 
-	var baseURL = 'http://localhost:5000';
+	angular.module('app')
+	.service('dataService', function($http) {
 
-	this.getRecipes = function(callback) {
-		$http.get(baseURL + '/api/recipes')
-		.then(callback);
-	};
+		var baseURL = 'http://localhost:5000';
 
-	this.getCategories = function(callback) {
-		$http.get(baseURL + '/api/categories')
-		.then(callback);
-	};
+		this.getRecipes = function(callback) {
+			$http.get(baseURL + '/api/recipes')
+			.then(callback);
+		};
 
-	this.getFoodItems = function(callback) {
-		$http.get(baseURL + '/api/fooditems')
-		.then(callback);
-	};
+		this.getCategories = function(callback) {
+			$http.get(baseURL + '/api/categories')
+			.then(callback);
+		};
 
-	this.getRecipesByCategory = function(callback, categoryName) {
-		$http.get(baseURL + '/api/recipes?category=' + categoryName)
-		.then(callback);
-	};
+		this.getFoodItems = function(callback) {
+			$http.get(baseURL + '/api/fooditems')
+			.then(callback);
+		};
 
-	this.getRecipeByID = function(callback, id) {
-		$http.get(baseURL + '/api/recipes/' + id)
-		.then(callback);
-	};
+		this.getRecipesByCategory = function(callback, categoryName) {
+			$http.get(baseURL + '/api/recipes?category=' + categoryName)
+			.then(callback);
+		};
 
-	this.updateRecipeByID = function(id, update) {
-		$http.put(baseURL + '/api/recipes/' + id, update);
-	};
+		this.getRecipeByID = function(callback, id) {
+			$http.get(baseURL + '/api/recipes/' + id)
+			.then(callback);
+		};
 
-	this.addRecipe = function(recipe) {
-		$http.post(baseURL + '/api/recipes', recipe);
-	};
+		this.updateRecipeByID = function(id, update) {
+			$http.put(baseURL + '/api/recipes/' + id, update);
+		};
 
-	this.deleteRecipeByID = function(id) {
-		$http.delete(baseURL + '/api/recipes/' + id);
-	};
+		this.addRecipe = function(recipe) {
+			$http.post(baseURL + '/api/recipes', recipe);
+		};
 
-});
+		this.deleteRecipeByID = function(id) {
+			$http.delete(baseURL + '/api/recipes/' + id);
+		};
+
+	});
+
+})();
