@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular.module('app')
-	.controller('RecipesController', function(dataService, $location) {
+	.controller('RecipesController', function(dataService, $location, $window) {
 
 		var vm = this;
 
@@ -30,8 +30,10 @@
 		};
 
 		vm.deleteRecipe = function(id) {
-			dataService.deleteRecipeByID(id);
-			vm.updateRecipeList();
+			if ($window.confirm('Are you sure?')) {
+		    	dataService.deleteRecipeByID(id);
+				vm.updateRecipeList();  
+		    }
 		};
 
 		vm.addRecipe = function(newRecipe) {
